@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+
+    app:
+        image: thecodingmachine/nodejs:10
+        ports:
+            - 80:8080
+        environment: 
+            STARTUP_COMMAND_1: "npm run serve"
+        volumes:
+            - ./:/usr/src/app
+        
+networks:
+    default:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.10.1.0/24
