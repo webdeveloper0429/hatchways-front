@@ -12,6 +12,19 @@
                     <span class="mr-3">Test {{ i + 1 }}:</span> {{ grade }} %
                 </div>
             </div>
+            <div v-if="student.tags && student.tags.length > 0">
+                <b-badge class="tag-item m-1 py-2 px-3" v-for="(tag, i) in student.tags" :key="i">{{ tag }}</b-badge>
+            </div>
+            <div class="border-bottom">
+                <b-form-input
+                    class="border-0 shadow-none"
+                    v-model="tagInput"
+                    type="text"
+                    trim
+                    placeholder="Add a tag"
+                    @keydown.enter.native="addTag"
+                ></b-form-input>
+            </div>
         </div>
         <div class="ml-auto">
             <b-icon v-if="expanded" 
@@ -37,6 +50,7 @@ export default {
     data() {
         return {
             expanded: false,
+            tagInput: '',
             student: {
                 id: this.data.id,
                 firstName: this.data.firstName,
@@ -46,6 +60,7 @@ export default {
                 pic: this.data.pic,
                 skill: this.data.skill,
                 grades: this.data.grades,
+                tags: this.data.tags || [],
             }
         }
     },
@@ -54,6 +69,14 @@ export default {
             const average = list => list.reduce((prev, curr) => parseFloat(prev) + parseFloat(curr) ) / list.length;
             return this.data.grades ? average(this.data.grades) : 0
         }
+    },
+    methods: {
+        addTag() {
+            if(!this.tagInput) return
+            this.$emit('addTag', this.student.id, this.tagInput)
+            this.tagInput = '';
+        }
     }
+
 }
 </script>

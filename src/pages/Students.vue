@@ -23,7 +23,10 @@
                 <vue-scroll>
                     <b-list-group flush class="">
                         <b-list-group-item v-for="student in filteredStudents(name, tag)" :key="student.id" >
-                            <Student :data="student" />
+                            <Student 
+                                :data="student"
+                                @addTag="addTag"
+                            />
                         </b-list-group-item>
                     </b-list-group>
                 </vue-scroll>
@@ -48,7 +51,13 @@ export default {
         }
     },
     async created() {
-        this.students = await StudentService.getStudents();
+        const students = await StudentService.getStudents();
+        this.students = students && students.map(student => { 
+            return {
+                ...student ,
+                tags: [],
+            }
+        });
     },
     computed: {
         filteredStudents: function() {
@@ -66,6 +75,15 @@ export default {
                         return fullName.toLowerCase().includes(name.toLowerCase()) && tagString.toLowerCase().includes(tag.toLowerCase())
                     }
                 })
+            }
+        }
+    },
+    methods: {
+        addTag(id, tagInput) {
+            const student = this.students.find(student => student.id === id)
+            console.log(student)
+            if (student) {
+                student.tags.push(tagInput);
             }
         }
     }
