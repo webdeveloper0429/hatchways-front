@@ -10,5 +10,13 @@
 }
 
 .student-wrapper{
-    height: calc(100% - 80px)
+    height: calc(100% - 80px);
+    .expand-icon{
+        font-size: 2rem;
+        color: #9ba6b1;
+        cursor: pointer;
+        &:hover{
+            color: #545b61;
+        }
+    }
 }
