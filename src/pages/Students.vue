@@ -81,7 +81,6 @@ export default {
     methods: {
         addTag(id, tagInput) {
             const student = this.students.find(student => student.id === id)
-            console.log(student)
             if (student) {
                 student.tags.push(tagInput);
             }
